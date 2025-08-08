@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from './pages/Home';
+import Layout from './pages/Layout';
+import Dashboard from './pages/Dashboard';
+import WriteArticle from './pages/WriteArticle';
+import BlogTitle from './pages/BlogTitle';
+import GenerateImg from './pages/GenerateImg';
+import RemoveBg from './pages/RemoveBg';
+import RemoveObj from './pages/RemoveObj';
+import ReviewResume from './pages/ReviewResume';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <Routes>
+          <Route path="/" element={ <Home/> }/>
+          <Route path="/ai" element={<Layout/> }>
+              <Route index element={ <Dashboard/> }/>
+              <Route path="write-article" element={ <WriteArticle/> }/>
+              <Route path="blog-title" element={ <BlogTitle/> }/>
+              <Route path="generate-images" element={ <GenerateImg/> }/>
+              <Route path="remove-background" element={ <RemoveBg/> }/>
+              <Route path="remove-object" element={ <RemoveObj/> }/>
+              <Route path="review-resume" element={ <ReviewResume/> }/>
+              <Route path="community" element={ <ReviewResume/> }/>
+          </Route>
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
