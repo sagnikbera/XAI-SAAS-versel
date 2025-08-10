@@ -12,7 +12,7 @@ const Layout = () => {
 
   return user ? (
     <div className="flex flex-col items-start justify-start h-screen">
-      <nav className="w-full px-8 min-h-14 flex items-center justify-between border-b border-gray-200">
+      <nav className="w-full min-h-14 flex items-center justify-between border-b border-gray-200 bg-[#fed7aa] backdrop-blur-md px-4 sm:px-8 xl:px-16">
         <img
           src={assets.logo}
           alt="logo"
@@ -34,7 +34,10 @@ const Layout = () => {
 
       <div className="flex-1 w-full flex h-[calc(100vh - 64px)]">
         <SideBar sidebar={sidebar} setSidebar={setSidebar} />
-        <div className="flex-1 bg-[#f4f7fb]">
+        <div
+          className="flex-1 bg-[#ffedd5]"
+          style={{ backgroundImage: `url(${assets.gradientBackground})` }}
+        >
           <Outlet />
         </div>
       </div>

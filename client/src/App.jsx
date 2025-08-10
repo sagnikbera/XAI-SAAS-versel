@@ -9,6 +9,7 @@ import GenerateImg from './pages/GenerateImg';
 import RemoveBg from './pages/RemoveBg';
 import RemoveObj from './pages/RemoveObj';
 import ReviewResume from './pages/ReviewResume';
+import Community from "./pages/Community";
 
 const App = () => {
   return (
@@ -24,7 +25,7 @@ const App = () => {
               <Route path="remove-background" element={ <RemoveBg/> }/>
               <Route path="remove-object" element={ <RemoveObj/> }/>
               <Route path="review-resume" element={ <ReviewResume/> }/>
-              <Route path="community" element={ <ReviewResume/> }/>
+              <Route path="community" element={ <Community/> }/>
           </Route>
         </Routes>
       </div>
