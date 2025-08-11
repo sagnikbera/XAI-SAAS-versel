@@ -47,16 +47,20 @@ const Footer = () => {
               <h2 className="font-semibold mb-5 text-gray-800">XAI</h2>
               <ul className="text-sm space-y-2">
                 <li>
-                  <a href="#">Home</a>
+                  <a href="/">Home</a>
                 </li>
                 <li>
-                  <a href="#">About us</a>
+                  <a href="/ai">Start Creating</a>
                 </li>
                 <li>
-                  <a href="#">Contact us</a>
+                  <a href="https://www.linkedin.com/in/sagnik-bera/">
+                    Contact Me
+                  </a>
                 </li>
                 <li>
-                  <a href="#">Privacy policy</a>
+                  <a href="https://github.com/sagnikbera/XAI-SaaS-App">
+                    Source
+                  </a>
                 </li>
               </ul>
             </div>

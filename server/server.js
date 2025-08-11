@@ -12,7 +12,7 @@ app.get('/' , (req , res) => {
     res.send('Server is live!')
 })
 
-app.get(requireAuth())
+app.use(requireAuth())
 
 const PORT = process.env.PORT || 3000;
 
