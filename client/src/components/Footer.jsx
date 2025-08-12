@@ -1,5 +1,6 @@
 import React from "react";
 import { assets } from "../assets/assets";
+import { Github } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -57,10 +58,11 @@ const Footer = () => {
                     Contact Me
                   </a>
                 </li>
-                <li>
+                <li className="flex gap-1">
                   <a href="https://github.com/sagnikbera/XAI-SaaS-App">
                     Source
                   </a>
+                  <Github className="bg-slate-700 rounded-full p-1 text-white" />
                 </li>
               </ul>
             </div>

@@ -1,5 +1,5 @@
-
 ## Used Packeages
+
 | Package        | Purpose                                                                                  |
 | -------------- | ---------------------------------------------------------------------------------------- |
 | **express**    | Web framework for building APIs & server routes in Node.js                               |
@@ -8,41 +8,19 @@
 | **axios**      | Promise-based HTTP client for making API requests                                        |
 | **cloudinary** | Cloud service SDK for uploading, storing, and managing images/videos                     |
 | **multer**     | Middleware for handling `multipart/form-data` (file uploads) in Express                  |
-
-
-
+| **openai**     | SDK for accessing OpenAI's APIs (e.g., ChatGPT, GPT-4, DALL·E) for AI-powered features   |
 
 [ "type": "module", from commonjs ]
 Database used - Neon DB - postgresql
 
 ### express neon docs -
- https://neon.com/docs/guides/express
 
- ```
- npm inti
- npm install express dotenv cors axios cloudinary multer
- npm install @neondatabase/serverless
- npm install @clerk/express
- ```
+https://neon.com/docs/guides/express
 
-
-
- 3.53.57
-  3.53.57
-   3.53.57
-    3.53.57
-     3.53.57
-      3.53.57
-       3.53.57
-        3.53.57
-         3.53.57
-          3.53.57
-           3.53.57
-            3.53.57
-             3.53.57
-              3.53.57
-               3.53.57
-                3.53.57
-                 3.53.57
-                  3.53.57
-
+```
+npm inti
+npm install express dotenv cors axios cloudinary multer
+npm install @neondatabase/serverless
+npm install @clerk/express
+npm install openai
+```
