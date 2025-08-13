@@ -37,7 +37,7 @@ const ReviewResume = () => {
         </button>
       </form>
       {/* right col  */}
-      <div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-300 min-h-96 max-h-[600px] shadow-2xl">
+      <div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-300 min-h-96 max-h-[700px] shadow-2xl">
         <div className="lex items-center gap-3">
           <FileText className="w-5 h-5 text-[#0e7490]" />
           <h1 className="text-xl font-semibold">Analysis Results</h1>

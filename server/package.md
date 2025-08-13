@@ -23,4 +23,12 @@ npm install express dotenv cors axios cloudinary multer
 npm install @neondatabase/serverless
 npm install @clerk/express
 npm install openai
+npm i pdf-parse
 ```
+<br/>
+<br/>
+
+`For text to image we use - `= https://clipdrop.co/apis/docs/text-to-image
+
+
+`for cloud storage we use -` = https://console.cloudinary.com/
