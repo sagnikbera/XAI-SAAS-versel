@@ -38,15 +38,18 @@ const WriteArticle = () => {
       setLoading(true);
       const prompt = `Write an article about ${input} in ${selectedLength.text}`;
 
-      //api call
+      //! api call
       const { data } = await axios.post(
-        "/api/ai/generate-article",
+        "/api/ai/generate-article", // (1) URL
         {
-          prompt: prompt,
+          prompt: prompt, // (2) Request body
           length: selectedLength.length,
         },
         {
-          headers: { Authorization: `Bearer ${await getToken()}` },
+          headers: {
+            // (3) Extra config (headers)
+            Authorization: `Bearer ${await getToken()}`,
+          },
         }
       );
 
@@ -133,7 +136,7 @@ const WriteArticle = () => {
         ) : (
           <div className="mt-3 h-full overflow-y-scroll text-slate-600">
             <div>
-              <Markdown>{content}</Markdown>
+              <Markdown className="reset-tw">{content}</Markdown>
             </div>
           </div>
         )}
