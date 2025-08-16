@@ -127,7 +127,7 @@ const GenerateImg = () => {
               checked={publish}
               className="sr-only peer"
             />
-            <div className="w-9 h-5 bg-[#d9f99d] rounded-full peer-checked:bg-[#4d7c0f] transition border border-[#65a30d]"></div>
+            <div className="w-9 h-5 bg-[#f9ce9d] rounded-full peer-checked:bg-[#4d7c0f] transition border border-[#65a30d]"></div>
             <span className="absolute left-1 top-1 w-3 h-3 bg-[#4d7c0f] rounded-full transition peer-checked:bg-white peer-checked:translate-x-4 "></span>
           </label>
           <p className="text-sm">Make this Image public.</p>

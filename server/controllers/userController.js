@@ -3,11 +3,11 @@ import sql from "../configs/db.js";
 //! Get all creation of particular user
 export const getUserCreations = async (req, res) => {
   try {
-    const { useId } = req.auth();
+    const { userId } = req.auth();
 
     const creations = await sql`
                                 SELECT * FROM creations
-                                WHERE user_id = ${useId}
+                                WHERE user_id = ${userId}
                                 ORDER BY created_at DESC
                                 `;
     res.json({
