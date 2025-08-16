@@ -1,11 +1,51 @@
 import { Eraser, ImageUpIcon, Sparkle } from "lucide-react";
 import React, { useState } from "react";
+//for back
+import axios from "axios";
+import { useAuth } from "@clerk/clerk-react";
+import toast from "react-hot-toast";
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const RemoveBg = () => {
   const [input, setInput] = useState("");
 
+  // back start
+  const [loading, setLoading] = useState(false);
+  const [content, setContent] = useState("");
+  const { getToken } = useAuth();
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      // create FormData object to hold file upload
+      const formData = new FormData();
+      // backend will read this as req.file or req.files["image"]
+      formData.append("image", input);
+
+      const { data } = await axios.post(
+        "/api/ai/remove-image-background",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+          },
+        }
+      );
+
+      if (data.success) {
+        setContent(data.content);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -28,9 +68,18 @@ const RemoveBg = () => {
           className="w-full p-2 px-3 mt-2 outline-none text-sm rounded-md border border-gray-300 text-gray-600"
           required
         />
-        <p className="text-sm text-gray-500 font-light mt-1">Supports JPG, PNG and other image formats.</p>
-        <button className="w-full flex justify-center items-center gap-2 bg-gradient-to-l to-[#3b0764] from-[#9333ea] text-white px-4 py-2 mt-6 text-sm rounded-lg cursor-pointer">
-          <Eraser className="w-5" />
+        <p className="text-sm text-gray-500 font-light mt-1">
+          Supports JPG, PNG and other image formats.
+        </p>
+        <button
+          disabled={loading}
+          className="w-full flex justify-center items-center gap-2 bg-gradient-to-l to-[#3b0764] from-[#9333ea] text-white px-4 py-2 mt-6 text-sm rounded-lg cursor-pointer"
+        >
+          {loading ? (
+            <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>
+          ) : (
+            <Eraser className="w-5" />
+          )}
           Remove Background
         </button>
       </form>
@@ -40,14 +89,27 @@ const RemoveBg = () => {
           <Eraser className="w-5 h-5 text-[#7e22ce]" />
           <h1 className="text-xl font-semibold">Processed Image</h1>
         </div>
-        <div className="flex-1 flex justify-center items-center">
-          <div className="text-sm flex flex-col items-center gap-5 text-[#d8b4fe]">
-            <ImageUpIcon className="w-12 h-12" />
-            <p className="font-medium text-sm">
-              Upload the file and click "Remove Background" to get started...
-            </p>
+
+        {/* displaying the processed image  */}
+
+        {!content ? (
+          <div className="flex-1 flex justify-center items-center">
+            <div className="text-sm flex flex-col items-center gap-5 text-[#d8b4fe]">
+              <ImageUpIcon className="w-12 h-12" />
+              <p className="font-medium text-sm">
+                Upload the file and click "Remove Background" to get started...
+              </p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="h-full mt-3">
+            <img
+              src={content}
+              alt="processed-image"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

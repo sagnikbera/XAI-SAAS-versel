@@ -5,8 +5,8 @@ import { clerkClient } from "@clerk/express";
 import axios from "axios";
 import { v2 as cloudinary } from "cloudinary";
 import FormData from "form-data";
-import fs from 'fs'
-import pdf from 'pdf-parse/lib/pdf-parse.js'
+import fs from "fs";
+import pdf from "pdf-parse/lib/pdf-parse.js";
 
 const AI = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -188,7 +188,7 @@ export const generateImage = async (req, res) => {
 export const removeImageBackground = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const { image } = req.file;
+    const image = req.file;
     const plan = req.plan;
 
     if (plan !== "freedom") {
@@ -270,12 +270,11 @@ export const removeImageObject = async (req, res) => {
   }
 };
 
-
 //! review resume
 export const resumeReview = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const  resume  = req.file;
+    const resume = req.file;
     const plan = req.plan;
 
     if (plan !== "freedom") {
@@ -285,17 +284,17 @@ export const resumeReview = async (req, res) => {
       });
     }
 
-    if(resume.size > 5*1024*1024) {
+    if (resume.size > 5 * 1024 * 1024) {
       return res.json({
         success: false,
         message: "Resume file size exceeds allowed size (5MB).",
-      })
+      });
     }
 
     const dataBuffer = fs.readFileSync(resume.path);
-    const pdfData = await pdf (dataBuffer);
+    const pdfData = await pdf(dataBuffer);
 
-    const prompt = `Review the following resume and provide constructive feedback on its strengths, weaknesses , and areas for improvement. Resume Content : \n\n ${pdfData.text}`
+    const prompt = `Review the following resume and provide constructive feedback on its strengths, weaknesses , and areas for improvement. Resume Content : \n\n ${pdfData.text}`;
 
     const response = await AI.chat.completions.create({
       model: "gemini-2.0-flash",
@@ -310,7 +309,6 @@ export const resumeReview = async (req, res) => {
     });
 
     const content = response.choices[0].message.content;
-
 
     await sql`
         INSERT INTO creations (user_id , prompt , content , type)
