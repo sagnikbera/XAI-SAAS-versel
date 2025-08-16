@@ -9,45 +9,29 @@ axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const WriteArticle = () => {
   const articleLength = [
-    {
-      length: 800,
-      text: "Sort (500-800 words)",
-    },
-    {
-      length: 1200,
-      text: "Medium (800-1200 words)",
-    },
-    {
-      length: 1600,
-      text: "Long (1200+ words)",
-    },
+    { length: 800, text: "Sort (500-800 words)" },
+    { length: 1200, text: "Medium (800-1200 words)" },
+    { length: 1600, text: "Long (1200+ words)" },
   ];
 
   const [selectedLength, setSelectedLength] = useState(articleLength[0]);
   const [input, setInput] = useState("");
-
-  // back start
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState("");
   const { getToken } = useAuth();
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    //back
     try {
       setLoading(true);
+      setContent(""); // clear old content while loading
       const prompt = `Write an article about ${input} in ${selectedLength.text}`;
 
-      //! api call
       const { data } = await axios.post(
-        "/api/ai/generate-article", // (1) URL
-        {
-          prompt: prompt, // (2) Request body
-          length: selectedLength.length,
-        },
+        "/api/ai/generate-article",
+        { prompt, length: selectedLength.length },
         {
           headers: {
-            // (3) Extra config (headers)
             Authorization: `Bearer ${await getToken()}`,
           },
         }
@@ -61,13 +45,12 @@ const WriteArticle = () => {
     } catch (error) {
       toast.error(error.message);
     }
-
     setLoading(false);
   };
 
   return (
     <div className="h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700">
-      {/* left col  */}
+      {/* left col */}
       <form
         onSubmit={onSubmitHandler}
         className="w-full max-w-lg p-4 bg-white rounded-lg border border-gray-200 shadow-xl"
@@ -117,14 +100,35 @@ const WriteArticle = () => {
           Generate Article
         </button>
       </form>
-      {/* right col  */}
+
+      {/* right col */}
       <div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-300 min-h-96 max-h-[700px] shadow-2xl">
-        <div className="lex items-center gap-3">
+        <div className="flex items-center gap-3">
           <Edit className="w-5 h-5 text-[#ca8a04]" />
           <h1 className="text-xl font-semibold">Generated article</h1>
         </div>
 
-        {!content ? (
+        {/* Skeleton loader */}
+        {loading ? (
+          // ✅ Structured skeleton loader
+          <div className="mt-4 space-y-4 animate-pulse">
+            {/* Big Heading */}
+            <div className="h-6 bg-gray-200 rounded w-5/6"></div>
+
+            {/* Subheading */}
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+
+            {/* Paragraph lines */}
+            <div className="space-y-2">
+              <div className="h-3 bg-gray-200 rounded w-full"></div>
+              <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+              <div className="h-3 bg-gray-200 rounded w-4/6"></div>
+              <div className="h-3 bg-gray-200 rounded w-full"></div>
+              <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+              <div className="h-3 bg-gray-200 rounded w-4/6"></div>
+            </div>
+          </div>
+        ) : !content ? (
           <div className="flex-1 flex justify-center items-center">
             <div className="text-sm flex flex-col items-center gap-5 text-[#facc15]">
               <FilePenLine className="w-12 h-12" />
@@ -135,9 +139,7 @@ const WriteArticle = () => {
           </div>
         ) : (
           <div className="mt-3 h-full overflow-y-scroll text-slate-600">
-            <div>
-              <Markdown className="reset-tw">{content}</Markdown>
-            </div>
+            <Markdown className="reset-tw">{content}</Markdown>
           </div>
         )}
       </div>
