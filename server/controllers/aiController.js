@@ -230,7 +230,7 @@ export const removeImageBackground = async (req, res) => {
 export const removeImageObject = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const { image } = req.file;
+    const  image  = req.file;
     const { object } = req.body;
     const plan = req.plan;
 
@@ -246,7 +246,7 @@ export const removeImageObject = async (req, res) => {
     const imageUrl = cloudinary.url(public_id, {
       transformation: [
         {
-          effect: `gen_remove : ${object}`,
+          effect: `gen_remove:${object}`,
         },
       ],
       resource_type: "image",
