@@ -48,6 +48,28 @@ const RemoveBg = () => {
     setLoading(false);
   };
 
+  //  download func
+  const downloadImage = async () => {
+    try {
+      const response = await fetch(content);
+      const blob = await response.blob();
+
+      // create a temporary link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Bg-removed-image.png"; // file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // free up memory
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      toast.error("Failed to download image");
+    }
+  };
+
   return (
     <div className="h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700">
       {/* left col  */}
@@ -102,12 +124,20 @@ const RemoveBg = () => {
             </div>
           </div>
         ) : (
-          <div className="h-full mt-3">
+          <div className="h-full mt-3 flex flex-col items-center">
             <img
               src={content}
               alt="processed-image"
               className="w-full h-full object-contain"
             />
+
+            {/* Download button */}
+            <button
+              onClick={downloadImage}
+              className="w-[50%] px-4 py-2 bg-gradient-to-l to-[#3b0764] from-[#9333ea] text-white rounded-lg text-sm shadow-lg hover:opacity-90 transition mt-3"
+            >
+              Download Image
+            </button>
           </div>
         )}
       </div>
