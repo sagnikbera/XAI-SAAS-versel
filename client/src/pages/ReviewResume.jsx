@@ -79,26 +79,36 @@ const ReviewResume = () => {
         </button>
       </form>
       {/* right col  */}
+      {/* right col  */}
       <div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-300 min-h-96 max-h-[700px] shadow-2xl">
-        <div className="lex items-center gap-3">
+        <div className="flex items-center gap-3">
           <FileText className="w-5 h-5 text-[#0e7490]" />
           <h1 className="text-xl font-semibold">Analysis Results</h1>
         </div>
 
-        {/* resule  */}
-
-        {!content ? (
+        {loading ? (
+          // 🔹 Skeleton Loader (structured text)
+          <div className="flex-1 mt-6 space-y-4 animate-pulse">
+            <div className="h-6 bg-gray-300 rounded w-2/3"></div>
+            <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+            <div className="h-4 bg-gray-300 rounded w-full"></div>
+            <div className="h-4 bg-gray-300 rounded w-[90%]"></div>
+            <div className="h-4 bg-gray-300 rounded w-[80%]"></div>
+            <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+            <div className="h-4 bg-gray-300 rounded w-[70%]"></div>
+          </div>
+        ) : !content ? (
           <div className="flex-1 flex justify-center items-center">
             <div className="text-sm flex flex-col items-center gap-5 text-[#0890b296]">
               <Captions className="w-12 h-12" />
-              <p className="font-medium text-sm">
+              <p className="font-medium text-sm text-center">
                 Upload the resume and click "Review Resume" to get started...
               </p>
             </div>
           </div>
         ) : (
           <div className="mt-3 h-full overflow-y-scroll text-slate-600">
-            <div >
+            <div>
               <Markdown className="reset-tw">{content}</Markdown>
             </div>
           </div>

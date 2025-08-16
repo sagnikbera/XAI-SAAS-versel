@@ -148,39 +148,47 @@ const GenerateImg = () => {
         </button>
       </form>
       {/* right col  */}
-      <div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-300 min-h-96 shadow-2xl">
-        <div className="lex items-center gap-3">
-          <ImagePlay className="w-5 h-5 text-[#166534]" />
-          <h1 className="text-xl font-semibold">Generated Image</h1>
-        </div>
+      {/* right col  */}
+<div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-300 min-h-96 shadow-2xl">
+  <div className="flex items-center gap-3">
+    <ImagePlay className="w-5 h-5 text-[#166534]" />
+    <h1 className="text-xl font-semibold">Generated Image</h1>
+  </div>
 
-        {!content ? (
-          <div className="flex-1 flex justify-center items-center">
-            <div className="text-sm flex flex-col items-center gap-5 text-[#a3e635]">
-              <Images className="w-12 h-12" />
-              <p className="font-medium text-sm">
-                Enter a topic and click "Generate Image" to get started...
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className="h-full mt-3  flex flex-col items-center">
-            <img
-              src={content}
-              alt="generated-image"
-              className="w-full h-full"
-            />
-
-            {/* Download button */}
-            <button
-              onClick={downloadImage}
-              className="w-[50%] px-4 py-2 bg-gradient-to-l to-[#1a2e05] from-[#65a30d] text-white rounded-lg text-sm shadow-lg hover:opacity-90 transition mt-3"
-            >
-              Download Image
-            </button>
-          </div>
-        )}
+  {loading ? (
+    // 🔹 Skeleton Loader
+    <div className="flex-1 flex flex-col items-center justify-center mt-6 gap-4">
+      <div className="w-full aspect-square bg-gray-200 animate-pulse rounded-md"></div>
+      <div className="w-[50%] h-10 bg-gray-200 animate-pulse rounded-lg"></div>
+    </div>
+  ) : !content ? (
+    <div className="flex-1 flex justify-center items-center">
+      <div className="text-sm flex flex-col items-center gap-5 text-[#a3e635]">
+        <Images className="w-12 h-12" />
+        <p className="font-medium text-sm">
+          Enter a topic and click "Generate Image" to get started...
+        </p>
       </div>
+    </div>
+  ) : (
+    <div className="h-full mt-3 flex flex-col items-center">
+      <img
+        src={content}
+        alt="generated-image"
+        className="w-full h-full rounded-md"
+      />
+
+      {/* Download button */}
+      <button
+        onClick={downloadImage}
+        className="w-[50%] px-4 py-2 bg-gradient-to-l to-[#1a2e05] from-[#65a30d] text-white rounded-lg text-sm shadow-lg hover:opacity-90 transition mt-3"
+      >
+        Download Image
+      </button>
+    </div>
+  )}
+</div>
+
     </div>
   );
 };

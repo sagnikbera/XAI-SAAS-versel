@@ -122,19 +122,25 @@ const RemoveObj = () => {
         </button>
       </form>
       {/* right col  */}
+      {/* right col  */}
       <div className="w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-300 min-h-96 shadow-2xl">
-        <div className="lex items-center gap-3">
+        <div className="flex items-center gap-3">
           <Scissors className="w-5 h-5 text-[#1e40af]" />
           <h1 className="text-xl font-semibold">Processed Image</h1>
         </div>
 
-        {/* view result  */}
-        {!content ? (
+        {loading ? (
+          // 🔹 Skeleton Loader
+          <div className="flex-1 flex flex-col items-center justify-center mt-6 gap-4">
+            <div className="w-full aspect-square bg-gray-200 animate-pulse rounded-md"></div>
+            <div className="w-[50%] h-10 bg-gray-200 animate-pulse rounded-lg"></div>
+          </div>
+        ) : !content ? (
           <div className="flex-1 flex justify-center items-center">
             <div className="text-sm flex flex-col items-center gap-5 text-[#93c5fd]">
               <ImageMinus className="w-12 h-12" />
               <p className="font-medium text-sm text-center w-[80%]">
-                Upload the file , describe the object and click "Remove Object"
+                Upload the file, describe the object and click "Remove Object"
                 to get started...
               </p>
             </div>
@@ -144,7 +150,7 @@ const RemoveObj = () => {
             <img
               src={content}
               alt="processed-image"
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain rounded-md"
             />
 
             {/* Download button */}
