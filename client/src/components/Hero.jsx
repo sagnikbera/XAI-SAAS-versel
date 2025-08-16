@@ -30,9 +30,11 @@ const Hero = () => {
         onClick={() => navigate('/ai')}
         className="bg-[var(--pmcol)] font-semibold text-black px-10 py-3 rounded-lg hover:bg-black hover:text-[var(--pmcol)] hover:scale-102 active:scale-95 transition cursor-pointer"
         >Start Creating Now</button>
+        <a href="https://www.youtube.com/watch?v=K93tzq4WQoE" target="_blank" rel="noopener noreferrer">
         <button
         className="bg-white px-10 font-semibold py-3 rounded-lg border border-gray-300 hover:scale-102 active:scale-95 transition cursor-pointer hover:text-white hover:bg-black"
         >Watch Demo</button>
+        </a>
       </div>
       <div className="flex items-center gap-4 mt-8 mx-auto text-gray-600">
         <img src={assets.user_group} alt="" className="h-8"/> Trasted by many people.
