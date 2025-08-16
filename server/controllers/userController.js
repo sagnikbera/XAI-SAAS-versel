@@ -46,7 +46,7 @@ export const getPublishedCreations = async (req, res) => {
 export const toggleLikeCreations = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const { id } = req.body();
+    const { id } = req.body;
 
     const [creation] = await sql`
                                 SELECT * FROM creations
@@ -59,25 +59,24 @@ export const toggleLikeCreations = async (req, res) => {
       });
     }
 
-    const currentLikes = creation.like;
+    const currentLikes = creation.likes || [];
     const userIdStr = userId.toString();
     let updatedLikes;
     let message;
 
-    if(currentLikes.includes(userIdStr)) {
-        updatedLikes = currentLikes.filter((user)=> {
-            user !== userIdStr
-        });
-        message = 'Creation Unliked!'
-    }else {
-        updatedLikes = [...currentLikes , userIdStr];
-        message = 'Creation Liked!'
+    if (currentLikes.includes(userIdStr)) {
+      updatedLikes = currentLikes.filter((user) => {
+        user !== userIdStr;
+      });
+      message = "Creation Unliked!";
+    } else {
+      updatedLikes = [...currentLikes, userIdStr];
+      message = "Creation Liked!";
     }
 
     const formattedArray = `{
-        ${updatedLikes.json(',')}
-    }`
-
+        ${updatedLikes.join(",")}
+    }`;
 
     await sql`
             UPDATE creations
@@ -85,9 +84,17 @@ export const toggleLikeCreations = async (req, res) => {
             WHERE id = ${id}
             `;
 
+    // ✅ Fetch updated creations again
+    const creations = await sql`
+      SELECT * FROM creations 
+      WHERE publish = true
+      ORDER BY created_at DESC
+    `;
+
     res.json({
       success: true,
-      message : message
+      message: message,
+      creations, // send updated list back
     });
   } catch (error) {
     res.json({
