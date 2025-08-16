@@ -1,5 +1,12 @@
 import { ImagePlay, Images, Sparkle } from "lucide-react";
 import React, { useState } from "react";
+//for back
+import axios from "axios";
+import { useAuth } from "@clerk/clerk-react";
+import toast from "react-hot-toast";
+
+// backend url
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const GenerateImg = () => {
   const imageStyle = [
@@ -17,8 +24,37 @@ const GenerateImg = () => {
   const [input, setInput] = useState("");
   const [publish, setPublish] = useState(false);
 
+  // back start
+  const [loading, setLoading] = useState(false);
+  const [content, setContent] = useState("");
+  const { getToken } = useAuth();
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    try {
+      setLoading(true);
+      const prompt = `Generate an Image of ${input} in the style ${selectedStyle}`;
+
+      const { data } = await axios.post(
+        "/api/ai/generate-image",
+        { prompt, publish },
+        {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+          },
+        }
+      );
+
+      if (data.success) {
+        setContent(data.content);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -60,13 +96,14 @@ const GenerateImg = () => {
             </span>
           ))}
         </div>
-          {/* Toogle Button  */}
+        {/* Toogle Button  */}
         <div className="my-6 flex items-center gap-2">
           <label className="relative cursor-pointer">
-            <input type="checkbox" 
-            onChange={(e) => setPublish(e.target.checked)}
-            checked={publish}
-            className="sr-only peer"
+            <input
+              type="checkbox"
+              onChange={(e) => setPublish(e.target.checked)}
+              checked={publish}
+              className="sr-only peer"
             />
             <div className="w-9 h-5 bg-[#d9f99d] rounded-full peer-checked:bg-[#4d7c0f] transition border border-[#65a30d]"></div>
             <span className="absolute left-1 top-1 w-3 h-3 bg-[#4d7c0f] rounded-full transition peer-checked:bg-white peer-checked:translate-x-4 "></span>
@@ -76,8 +113,15 @@ const GenerateImg = () => {
 
         <br />
 
-        <button className="w-full flex justify-center items-center gap-2 bg-gradient-to-l to-[#1a2e05] from-[#65a30d] text-white px-4 py-2 mt-2 text-sm rounded-lg cursor-pointer">
-          <ImagePlay className="w-5" />
+        <button
+          disabled={loading}
+          className="w-full flex justify-center items-center gap-2 bg-gradient-to-l to-[#1a2e05] from-[#65a30d] text-white px-4 py-2 mt-2 text-sm rounded-lg cursor-pointer"
+        >
+          {loading ? (
+            <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>
+          ) : (
+            <ImagePlay className="w-5" />
+          )}
           Generate Image
         </button>
       </form>
@@ -87,14 +131,25 @@ const GenerateImg = () => {
           <ImagePlay className="w-5 h-5 text-[#166534]" />
           <h1 className="text-xl font-semibold">Generated Image</h1>
         </div>
-        <div className="flex-1 flex justify-center items-center">
-          <div className="text-sm flex flex-col items-center gap-5 text-[#a3e635]">
-            <Images className="w-12 h-12" />
-            <p className="font-medium text-sm">
-              Enter a topic and click "Generate Image" to get started...
-            </p>
+
+        {!content ? (
+          <div className="flex-1 flex justify-center items-center">
+            <div className="text-sm flex flex-col items-center gap-5 text-[#a3e635]">
+              <Images className="w-12 h-12" />
+              <p className="font-medium text-sm">
+                Enter a topic and click "Generate Image" to get started...
+              </p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="h-full mt-3">
+            <img
+              src={content}
+              alt="generated-image"
+              className="w-full h-full"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
